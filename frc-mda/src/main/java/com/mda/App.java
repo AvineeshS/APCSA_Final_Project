@@ -5,13 +5,13 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -31,11 +31,13 @@ public class App {
         JsonNode root = mapper.readTree(response.body());
         JsonNode rankings = root.path("rankings");
 
+        Integer fetchRank = null; // Variable to store the fetched rank
+
         boolean found = false;
         for (JsonNode team : rankings) {
             if (team.path("team_key").asText().equals(teamKey)) {
-                int rank = team.path("rank").asInt();
-                System.out.println("Team " + teamKey + " rank at " + eventKey + ": " + rank);
+                fetchRank = team.path("rank").asInt();
+                System.out.println("Team " + teamKey + " rank at " + eventKey + ": " + fetchRank);
                 found = true;
                 break;
             }
@@ -52,7 +54,18 @@ public class App {
                 WebElement table = driver.findElement(By.className("rankings-table"));
                 for (WebElement row : table.findElements(By.tagName("tr"))) {
                     if (row.getText().contains("254")) {
-                        System.out.println("Found via Selenium: " + row.getText());
+                        // Attempt to extract rank from the row text
+                        String rowText = row.getText();
+                        String[] parts = rowText.split("\\s+");
+                        if (parts.length > 0) {
+                            try {
+                                fetchRank = Integer.parseInt(parts[0]);
+                                System.out.println("Found via Selenium: " + rowText);
+                                System.out.println("Extracted rank: " + fetchRank);
+                            } catch (NumberFormatException nfe) {
+                                System.out.println("Could not parse rank from row: " + rowText);
+                            }
+                        }
                         break;
                     }
                 }
