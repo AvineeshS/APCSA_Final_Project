@@ -16,8 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class App {
     public static void main(String[] args) throws Exception {
         String apiKey = "EirqUtI3fd05qcOdO5pdOEKEEGFc6IdAN4IYa5OU3vy83x5lDcSZKPZKfDrhtGdw"; // Replace with your actual TBA API key
-        String eventKey = "2023casj"; // 2023 Silicon Valley Regional
-        String teamKey = "frc254";
+        String eventKey = "2025mawne"; // 2023 Silicon Valley Regional
+        String teamKey = "frc178";
 
         HttpClient client = HttpClient.newHttpClient();
 
@@ -53,7 +53,7 @@ public class App {
             try {
                 WebElement table = driver.findElement(By.className("rankings-table"));
                 for (WebElement row : table.findElements(By.tagName("tr"))) {
-                    if (row.getText().contains("254")) {
+                    if (row.getText().contains("178")) {
                         // Attempt to extract rank from the row text
                         String rowText = row.getText();
                         String[] parts = rowText.split("\\s+");
