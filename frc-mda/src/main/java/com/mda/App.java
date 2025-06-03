@@ -4,18 +4,19 @@ public class App {
     public static void main(String[] args) {
         String apiKey = "EirqUtI3fd05qcOdO5pdOEKEEGFc6IdAN4IYa5OU3vy83x5lDcSZKPZKfDrhtGdw";
         String eventKey = "2025mawne";
-        String teamKey = "frc178";
+        String teamKey = "frc195";
 
         DataManager dataManager = new DataManager();
 
-        Integer rank = dataManager.fetchRankFromApi(apiKey, eventKey, teamKey);
-        if (rank != null) {
-            System.out.println("Team " + teamKey + " rank: " + rank);
+        Integer OPPrank = dataManager.fetchRankFromApi(apiKey, eventKey, teamKey);
+        Integer MYrank = dataManager.fetchRankFromApi(apiKey, eventKey, "frc178");
+        if (OPPrank != null) {
+            System.out.println("Team " + teamKey + " rank: " + OPPrank);
         } else {
             System.out.println("API failed, trying Selenium...");
-            rank = dataManager.fetchRankWithSelenium(eventKey, teamKey);
-            if (rank != null) {
-                System.out.println("Team " + teamKey + " rank (Selenium): " + rank);
+            OPPrank = dataManager.fetchRankWithSelenium(eventKey, teamKey);
+            if (OPPrank != null) {
+                System.out.println("Team " + teamKey + " rank (Selenium): " + OPPrank);
             } else {
                 System.out.println("Could not find rank for team " + teamKey);
             }
