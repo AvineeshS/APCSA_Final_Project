@@ -10,13 +10,25 @@ public class App {
 
         Integer OPPrank = dataManager.fetchRankFromApi(apiKey, eventKey, teamKey);
         Integer MYrank = dataManager.fetchRankFromApi(apiKey, eventKey, "frc178");
-        if (OPPrank != null) {
-            System.out.println("Team " + teamKey + " rank: " + OPPrank);
+        if (OPPrank != null && MYrank != null) {
+            if(OPPrank < MYrank) {
+                System.out.println("Team " + teamKey + " is ranked higher than Team frc178, good luck you might be cooked");
+            } else if (OPPrank > MYrank) {
+                System.out.println("Team " + teamKey + " is ranked lower than Team frc178, good luck make sure your robot works!");
+            } else {
+                System.out.println("So I'm not sure just do whatever");
+            }
         } else {
             System.out.println("API failed, trying Selenium...");
             OPPrank = dataManager.fetchRankWithSelenium(eventKey, teamKey);
-            if (OPPrank != null) {
-                System.out.println("Team " + teamKey + " rank (Selenium): " + OPPrank);
+            if (OPPrank != null && MYrank != null) {
+                if(OPPrank < MYrank) {
+                    System.out.println("Team " + teamKey + " is ranked higher than Team frc178, good luck you might be cooked");
+                } else if (OPPrank > MYrank) {
+                    System.out.println("Team " + teamKey + " is ranked lower than Team frc178, good luck make sure your robot works!");
+                } else {
+                    System.out.println("So I'm not sure just do whatever");
+                }
             } else {
                 System.out.println("Could not find rank for team " + teamKey);
             }
